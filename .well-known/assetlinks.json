@@ -1,1 +1,56 @@
-aab.jpg
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "app_name": "lotofacil",
+      "package_name": "com.lotofacil.app",
+      "sha256_cert_fingerprints": [
+        "14:A3:F5:7D:90:D9:56:6D:10:FA:01:DB:5B:6F:47:76:D8:59:7B:A4"
+      ]
+    }
+  },
+  {
+    "project": {
+      "android": {
+        "start_time": "2025-03-20 08:24:23pm",
+        "status": "Android: Start",
+        "preparing_project_time": "2025-03-20 08:24:23pm",
+        "splash_screen": {
+          "color": "#ffffff - #1a1a1a",
+          "font": "Lato",
+          "text": "Loading - Made At - WebIntoApp.com"
+        },
+        "preparation_done": {
+          "time": "0.03331995010376 Seconds"
+        },
+        "icon_creation_time": "0.44247889518738 Seconds",
+        "user_details": {
+          "user_id": 127528,
+          "app_id": 659952,
+          "app_key": "zHiUlCDrSzjxfJEBmRWHUScPqeldQLqd",
+          "app_name": "lotofacil",
+          "app_alias": "lotofacil",
+          "app_author_name": "My Company",
+          "app_author_organizational": "My Company",
+          "app_author_organization": "My Company",
+          "app_author_locality": "My Company",
+          "app_author_state": "Sao Paulo",
+          "app_author_country": "Brazil",
+          "app_password": "x2mxir8v2wsk",
+          "app_versionName": "1.0",
+          "app_versionCode": 100,
+          "key_source": "Create New",
+          "feature_android": 1,
+          "feature_ios": 0,
+          "admob": 0
+        },
+        "permissions": "Set dir permission",
+        "keystore_generation": "Generate keystore OK",
+        "keytool_command": "keytool -genkey -v -keystore 659952/my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias \"lotofacil\" -storepass \"x2mxir8v2wsk\" -keypass \"x2mxir8v2wsk\" -dname \"CN=My Company, OU=My Company, O=My Company, L=My Company, S=Sao Paulo, C=Brazil\"",
+        "keystore_generation_time": "1.3759820461273 Seconds",
+        "apk_build_time": "10.407737016678 Seconds",
+        "app_bundle_build_time": "11.921744823456 Seconds"
+      }
+    }
+  }
+]
