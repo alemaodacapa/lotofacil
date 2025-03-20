@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerador Inteligente de Números da Sorte para Lotofácil - Faça apostas equilibradas, evite sequências e escolha números mais frequentes.">
+    <meta name="keywords" content="Lotofácil, Gerador de Números, Números da Sorte, Loterias, Caixa Econômica, Apostas, Sorteio, Probabilidade">
+    <meta name="author" content="Alemaodacapa">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gerador Inteligente - Lotofácil">
+    <meta property="og:description" content="Gerador inteligente para Lotofácil. Apostas equilibradas com foco em probabilidades e números mais frequentes.">
+    <meta property="og:image" content="img/lotofacil-1.png">
+    <meta property="og:url" content="https://social.x10.mx/lotofacil.html">
+    <title>Gerador Inteligente - Lotofácil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 20px;
+        }
+        header {
+            background-color: #0033a0;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        header img {
+            width: 150px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #0033a0;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #0033a0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #00247d;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .info {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+        footer a {
+            color: #0033a0;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="https://play.google.com/store/apps/details?id=br.gov.caixa.loterias.apostas" target="_blank">
+        <img src="img/lotofacil-1.png" alt="Logo Lotofácil">
+    </a>
+</header>
+
+<div class="container">
+    <h1>Gerador Inteligente de Números - Lotofácil</h1>
+    <button class="button" onclick="gerarNumeros()">Gerar Números da Sorte</button>
+    <div id="numeros" class="result"></div>
+    <p class="info">Equilíbrio entre pares e ímpares | Evita sequências longas | Distribuição equilibrada | Prioriza números mais frequentes</p>
+    <a href="https://play.google.com/store/apps/details?id=br.gov.caixa.loterias.apostas" target="_blank">
+        <button class="button">Baixar o App da Loterias Caixa</button>
+    </a>
+</div>
+
+
+<!-- Anúncio com vídeo local -->
+<div id="ad-popup" class="ad-popup">
+    <div class="ad-popup-content">
+        <video id="ad-video" autoplay>
+            <source src="https://social.x10.mx/video/anuncio.mp4" type="video/mp4">
+            Seu navegador não suporta o formato de vídeo.
+        </video>
+        <!-- Botão de mutar/desmutar -->
+        <button id="btn-mute-button" class="btn-mute-button">🔇</button>
+        <br>
+        <br>
+        <!-- Botão "Ajudar Manobrista" (inicialmente oculto) -->
+        <button id="help-manobrista-btn" class="help-manobrista-btn" style="display: none;">Ajudar Manobrista</button>
+        <!-- Botão de play -->
+        <button id="play-btn" class="play-btn">▶️</button>
+        <!-- Botão de fechar -->
+        <button id="close-btn" class="close-btn">X</button>
+    </div>
+</div>
+
+<style>
+    .ad-popup {
+        display: none; /* Inicialmente escondido */
+        position: fixed;
+        top: 0;
+        right: 0; /* Alinha o pop-up à direita da tela */
+        width: auto;
+        height: auto;
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ad-popup-content {
+        position: relative;
+        width: 100%;
+        max-width: 400px; /* Para vídeo no tamanho do TikTok */
+        background: none;
+        text-align: center;
+        border-radius: 16px; /* Bordas arredondadas */
+        border: 2px solid blue; /* Bordas azuis fininhas */
+        padding: 10px;
+    }
+
+    /* Botão "Ajude o Manobrista" */
+    .help-btn {
+        display: none; /* Inicialmente escondido */
+        background-color: green; /* Cor de fundo verde */
+        color: white; /* Texto branco */
+        border: none;
+        padding: 10px 20px;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 25px;
+        opacity: 0; /* Inicialmente invisível */
+        transition: opacity 1s ease-in-out; /* Efeito de fade-in */
+        margin-top: 20px;
+    }
+
+    /* Botão "Ajudar Manobrista" */
+    .help-manobrista-btn {
+        position: absolute;
+        bottom: 100px; /* Coloca abaixo do vídeo */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: green;
+        color: white; /* Texto branco */
+        border: none;
+        padding: 12px 50px; /* Botão alongado */
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 25px;
+        z-index: 1000;
+    }
+
+    /* Estilo de botão de Mute */
+    .btn-mute-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 10px;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 1000; /* Coloca o botão acima do vídeo */
+    }
+
+    /* Estilo do botão Play */
+    .play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 20px;
+        font-size: 40px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 1000;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    /* Estilo de sobreposição para centralizar o vídeo */
+    #ad-video {
+        width: 100%;
+        height: auto;
+        max-height: 100vh; /* Limita a altura do vídeo a 100% da altura da tela */
+        object-fit: cover; /* Para manter as proporções e não distorcer */
+        border-radius: 8px; /* Bordas arredondadas no vídeo */
+    }
+
+    .rd-nav-link {
+        color: black !important;
+    }
+
+    /* Estilo para o pop-up */
+    #popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+    }
+
+    /* Botão de fechar */
+    #close-btn {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Sombras do fundo para destacar o pop-up */
+    #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+    }
+</style>
+
+
+
+
+
+
+<!-- Botão de escolha para visualizar o anúncio -->
+<div id="ad-choice" class="ad-choice" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #00008B; color: white; padding: 10px 20px; border-radius: 10px; z-index: 9999; width: 250px;">
+    <!-- Campo de mensagem -->
+    <div style="margin-bottom: 10px; text-align: center; font-size: 16px;">
+        Temos um anúncio, você pode ver?
+    </div>
+    
+    <!-- Botões -->
+    <div style="display: flex; justify-content: space-between; width: 100%; text-align: center;">
+        <button id="yes-btn" style="background: white; color: blue; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; width: 45%;">Sim</button>
+        <button id="no-btn" style="background: white; color: blue; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; width: 45%;">Não</button>
+    </div>
+</div>
+
+
+<left>
+    <div id="ad-popup" class="ad-popup" style="display: none;">
+        <div class="ad-popup-content">
+            <video id="ad-video">
+                <source src="https://social.x10.mx/videos/anuncio.mp4" type="video/mp4">
+                Seu navegador não suporta o formato de vídeo.
+            </video>
+            <!-- Botão de mutar/desmutar -->
+            <button id="btn-mute-button" class="btn-mute-button">🔇</button>
+            <br>
+            <br>
+            <!-- Botão "Ajudar Manobrista" (inicialmente oculto) -->
+            <button id="help-manobrista-btn" class="help-manobrista-btn" style="display: none;">Ajudar Manobrista</button>
+            <!-- Botão de play -->
+            <button id="play-btn" class="play-btn">▶️</button>
+            <!-- Botão de fechar -->
+            <button id="close-btn" class="close-btn">X</button>
+        </div>
+    </div>
+</left>
+
+
+<script>
+const video = document.getElementById("ad-video");
+const closeBtn = document.getElementById("close-btn");
+const muteBtn = document.getElementById("btn-mute-button");
+const playBtn = document.getElementById("play-btn");
+const helpManobristaBtn = document.getElementById("help-manobrista-btn");
+const adPopup = document.getElementById("ad-popup");
+const adChoice = document.getElementById("ad-choice");
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
+
+// Garantir que o vídeo não comece automaticamente
+video.removeAttribute("autoplay");
+video.pause();
+
+// Exibir a mensagem de escolha após 30 segundos
+setTimeout(() => {
+    adChoice.style.display = "block";
+}, 30000);
+
+// Exibir o pop-up do anúncio se o usuário aceitar
+yesBtn.addEventListener("click", () => {
+    adChoice.style.display = "none";
+    adPopup.style.display = "flex";
+});
+
+
+// Fechar a mensagem de escolha se o usuário recusar
+noBtn.addEventListener("click", () => {
+    adChoice.style.display = "none";
+});
+
+// Exibir o botão "Ajudar Manobrista" após 60 segundos
+setTimeout(() => {
+    helpManobristaBtn.style.display = "inline-block";
+}, 60000);
+
+// Fechar o pop-up após 120 segundos de exibição
+setTimeout(() => {
+    adPopup.style.display = "none";
+    video.pause();
+    playBtn.textContent = "▶️";
+}, 240000);
+
+// Função para mutar e desmutar o vídeo
+muteBtn.addEventListener("click", () => {
+    video.muted = !video.muted;
+    muteBtn.textContent = video.muted ? "🔇" : "🔊";
+});
+
+// Função para dar play ou pause no vídeo ao clicar no botão "Play"
+playBtn.addEventListener("click", () => {
+    if (video.paused) {
+        video.play();
+        playBtn.textContent = "⏸️";
+    } else {
+        video.pause();
+        playBtn.textContent = "▶️";
+    }
+});
+
+// Botão "Fechar" fecha o pop-up
+closeBtn.addEventListener("click", () => {
+    adPopup.style.display = "none";
+    video.pause();
+    playBtn.textContent = "▶️";
+});
+
+// Redirecionar para a página de doação ao clicar no botão "Ajudar Manobrista"
+helpManobristaBtn.addEventListener("click", () => {
+    window.location.href = "https://social.x10.mx/donate.html";
+});
+
+// Manter o pop-up centralizado e sobrepondo o site
+adPopup.style.position = "fixed";
+adPopup.style.top = "50%";
+adPopup.style.left = "50%";
+adPopup.style.transform = "translate(-50%, -50%)";
+adPopup.style.zIndex = "10000";
+adPopup.style.width = "100vw";
+adPopup.style.height = "100vh";
+adPopup.style.background = "rgba(0, 0, 0, 0.8)";
+adPopup.style.display = "none";
+adPopup.style.justifyContent = "center";
+adPopup.style.alignItems = "center";
+
+// Adicionar as áreas clicáveis ao redor do vídeo
+const clickableArea = document.createElement('div');
+clickableArea.style.position = "absolute";
+clickableArea.style.top = "0";
+clickableArea.style.left = "0";
+clickableArea.style.right = "0";
+clickableArea.style.bottom = "0";
+clickableArea.style.zIndex = "999"; // Colocar sobre o vídeo, mas abaixo dos botões
+clickableArea.style.cursor = "pointer";
+
+// Adicionar a área clicável ao redor do vídeo
+adPopup.appendChild(clickableArea);
+
+// Quando clicado, redirecionar para o link desejado
+clickableArea.addEventListener('click', () => {
+    window.location.href = "https://social.x10.mx/donate.html";
+});
+
+// Adicionar um evento clicável no próprio vídeo, além das bordas
+video.addEventListener('click', () => {
+    window.location.href = "https://social.x10.mx/donate.html";
+});
+</script>
+<footer>
+    <p>Para mais informações, visite o <a href="https://loterias.caixa.gov.br/Paginas/default.aspx" target="_blank">site oficial da Lotofácil</a>.</p>
+</footer>
+
+<script>
+    function gerarNumeros() {
+        const numeros = Array.from({ length: 25 }, (_, i) => i + 1);
+        const combinacao = [];
+
+        // Números mais sorteados nos últimos 3 anos (dados simulados para este exemplo)
+        const maisFrequentes = [20, 10, 25, 11, 13, 24, 14, 4, 1, 3, 12, 5, 2, 9, 18];
+
+        // Estratégia 1: Selecionar números mais frequentes
+        while (combinacao.length < 10) {
+            const indice = Math.floor(Math.random() * maisFrequentes.length);
+            const numero = maisFrequentes[indice];
+            if (!combinacao.includes(numero)) {
+                combinacao.push(numero);
+            }
+        }
+
+        // Estratégia 2: Completar com números menos frequentes, mantendo equilíbrio entre pares e ímpares
+        const menosFrequentes = numeros.filter(n => !maisFrequentes.includes(n));
+        const pares = combinacao.filter(n => n % 2 === 0).length;
+        const impares = combinacao.filter(n => n % 2 !== 0).length;
+
+        while (combinacao.length < 15) {
+            const indice = Math.floor(Math.random() * menosFrequentes.length);
+            const numero = menosFrequentes[indice];
+            if (!combinacao.includes(numero)) {
+                if (numero % 2 === 0 && pares < 8) {
+                    combinacao.push(numero);
+                } else if (numero % 2 !== 0 && impares < 8) {
+                    combinacao.push(numero);
+                }
+            }
+        }
+
+        // Estratégia 3: Evitar sequências numéricas longas
+        combinacao.sort((a, b) => a - b);
+        for (let i = 0; i < combinacao.length - 1; i++) {
+            if (combinacao[i + 1] - combinacao[i] === 1) {
+                const alternativas = numeros.filter(n => !combinacao.includes(n) && Math.abs(n - combinacao[i]) > 1);
+                if (alternativas.length > 0) {
+                    combinacao[i + 1] = alternativas[Math.floor(Math.random() * alternativas.length)];
+                }
+            }
+        }
+
+        // Estratégia 4: Distribuição equilibrada entre números baixos (1-12) e altos (13-25)
+        const baixos = combinacao.filter(n => n <= 12).length;
+        const altos = combinacao.filter(n => n > 12).length;
+
+        if (baixos < 7) {
+            const deficit = 7 - baixos;
+            const candidatos = numeros.filter(n => n <= 12 && !combinacao.includes(n));
+            for (let i = 0; i < deficit; i++) {
+                combinacao.push(candidatos[i]);
+                combinacao.pop();
+            }
+        } else if (altos < 7) {
+            const deficit = 7 - altos;
+            const candidatos = numeros.filter(n => n > 12 && !combinacao.includes(n));
+            for (let i = 0; i < deficit; i++) {
+                combinacao.push(candidatos[i]);
+                combinacao.pop();
+            }
+        }
+
+        document.getElementById("numeros").innerText = "Números da Sorte: " + combinacao.sort((a, b) => a - b).join(", ");
+    }
+</script>
+<center>
+  <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 10px;">
+    Ganhou na Lotofácil e quer fazer uma doação? Considere estes botões logo abaixo:
+  </p>
+  
+  <div style="display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap;">
+    <!-- Botão PayPal -->
+    <form action="https://www.paypal.com/ncp/payment/TRBLGHGMF6AVS" method="post" target="_blank" style="display: inline-grid; justify-items: center; align-content: start; gap: 0.5rem;">
+      <input class="pp-TRBLGHGMF6AVS" type="submit" value="Doar" style="text-align:center; border:none; border-radius:0.25rem; min-width:11.625rem; padding:0 2rem; height:2.625rem; font-weight:bold; background-color:#FFD140; color:#000000; font-family:'Helvetica Neue', Arial, sans-serif; font-size:1rem; line-height:1.25rem; cursor:pointer;">
+      <img src="https://www.paypalobjects.com/images/Debit_Credit.svg" alt="cards">
+      <section>Com tecnologia <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem; vertical-align:middle;"></section>
+    </form>
+
+    <!-- Botão PagBank -->
+    <a href="https://pag.ae/7_qdPGxr9/button" target="_blank" title="Pagar com PagBank">
+      <img src="https://assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar-azul.gif" alt="Pague com PagBank - é rápido, grátis e seguro!">
+    </a>
+  </div>
+</center>
+    <!-- Biblioteca QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .pix-button {
+            background-color: #00BFA6;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            width: 300px;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+
+        .qrcode-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .popup-close {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+<br>
+<button id="pixButton" class="pix-button">Doar via Pix</button>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="pixPopup" class="popup">
+    <h2>Escaneie o QR Code para doar</h2>
+    <div class="qrcode-container">
+        <div id="qrcode"></div>
+    </div>
+    <button class="popup-close" onclick="fecharPopup()">Fechar</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+    document.getElementById("pixButton").addEventListener("click", function() {
+        document.getElementById("pixPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+
+        gerarQRCodePix();
+    });
+
+    function gerarQRCodePix() {
+        let chavePix = "95d5ae1c-c2d0-4ff9-bbac-7690fdc13f3f"; // Sua chave Pix
+        let nomeRecebedor = "Leonardo Frederico de Pa";  // Nome do recebedor (máx. 25 caracteres)
+        let cidadeRecebedor = "Brasilia"; // Cidade do recebedor
+
+        let payloadPix = gerarPixCopiaECola(chavePix, nomeRecebedor, cidadeRecebedor);
+
+        let qrCodeDiv = document.getElementById("qrcode");
+        qrCodeDiv.innerHTML = "";
+
+        new QRCode(qrCodeDiv, {
+            text: payloadPix,
+            width: 200,
+            height: 200
+        });
+    }
+
+    function calcularCRC16(payload) {
+        let polinomio = 0x1021;
+        let resultado = 0xFFFF;
+
+        for (let i = 0; i < payload.length; i++) {
+            resultado ^= payload.charCodeAt(i) << 8;
+            for (let j = 0; j < 8; j++) {
+                if ((resultado & 0x8000) !== 0) {
+                    resultado = (resultado << 1) ^ polinomio;
+                } else {
+                    resultado <<= 1;
+                }
+            }
+        }
+
+        resultado &= 0xFFFF;
+        return resultado.toString(16).toUpperCase().padStart(4, '0');
+    }
+
+    function gerarPixCopiaECola(chave, nome, cidade) {
+        let payload = `00020126580014BR.GOV.BCB.PIX0136${chave}5204000053039865802BR5924${nome}6008${cidade}62240520daqr17455370915927106304`;
+        let crc16 = calcularCRC16(payload);
+        return payload + crc16;
+    }
+
+    function fecharPopup() {
+        document.getElementById("pixPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+</script>
+        <script>
+    const video = document.getElementById("ad-video");
+    const donateBtn = document.getElementById("donate-btn");
+    const closeBtn = document.getElementById("close-btn");
+    const helpBtn = document.getElementById("help-btn");
+    const muteBtn = document.getElementById("btn-mute-button");
+    const playBtn = document.getElementById("play-btn");
+    const helpManobristaBtn = document.getElementById("help-manobrista-btn");
+    const adPopup = document.getElementById("ad-popup");
+
+    // Função para forçar o play do vídeo
+    function forcePlayVideo() {
+        video.muted = false; // Ativa o áudio
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log("Vídeo reproduzido automaticamente");
+            }).catch(error => {
+                console.log("Erro ao reproduzir vídeo, interação necessária:", error);
+            });
+        }
+    }
+
+    // Exibir o pop-up após 30 segundos de visita
+    setTimeout(() => {
+        adPopup.style.display = "flex";
+
+        // Tentar dar play no vídeo imediatamente
+        forcePlayVideo();
+
+    }, 30000); // 30 segundos
+
+    // Se o usuário interagir com a página, garantir que o vídeo toque
+    document.addEventListener("click", forcePlayVideo);
+    document.addEventListener("touchstart", forcePlayVideo);
+
+    // Exibir o botão "Ajudar Manobrista" após 60 segundos de visita
+    setTimeout(() => {
+        helpManobristaBtn.style.display = "inline-block"; // Exibe o botão "Ajudar Manobrista"
+    }, 60000); // 60 segundos
+
+    // Função para mutar e desmutar o vídeo
+    muteBtn.addEventListener("click", () => {
+        video.muted = !video.muted; // Alterna o estado do mudo
+        muteBtn.textContent = video.muted ? "🔊" : "🔇"; // Atualiza o ícone conforme o estado
+    });
+
+    // Função para iniciar o vídeo ao clicar no botão "Play"
+    playBtn.addEventListener("click", () => {
+        forcePlayVideo(); // Chama a função para iniciar o vídeo
+        playBtn.style.display = "none"; // Esconde o botão de play após clicar
+    });
+
+    // Botão "Fechar" fecha o pop-up
+    closeBtn.addEventListener("click", () => {
+        adPopup.style.display = "none"; // Fecha o pop-up
+    });
+
+    // Redirecionar para a página de doação ao clicar no botão "Ajudar Manobrista"
+    helpManobristaBtn.addEventListener("click", () => {
+        window.location.href = "https://social.x10.mx/donate.html";
+    });
+</script>
+</body>
+</html>
