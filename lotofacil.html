@@ -80,6 +80,14 @@
         footer a:hover {
             text-decoration: underline;
         }
+#ad-popup video {
+    max-width: 90vw; /* 90% da largura da tela */
+    max-height: 80vh; /* 80% da altura da tela */
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+}
+
     </style>
 </head>
 <body>
@@ -99,105 +107,185 @@
         <button class="button">Baixar o App da Loterias Caixa</button>
     </a>
 </div>
-
-
-<!-- Anúncio com vídeo local -->
+<!-- Pop-up de anúncio -->
 <div id="ad-popup" class="ad-popup">
+    <div class="ad-popup-overlay" id="clickable-overlay"></div>
     <div class="ad-popup-content">
-        <video id="ad-video" autoplay>
-            <source src="https://social.x10.mx/video/anuncio.mp4" type="video/mp4">
-            Seu navegador não suporta o formato de vídeo.
-        </video>
-        <!-- Botão de mutar/desmutar -->
-        <button id="btn-mute-button" class="btn-mute-button">🔇</button>
-        <br>
-        <br>
-        <!-- Botão "Ajudar Manobrista" (inicialmente oculto) -->
-        <button id="help-manobrista-btn" class="help-manobrista-btn" style="display: none;">Ajudar Manobrista</button>
-        <!-- Botão de play -->
-        <button id="play-btn" class="play-btn">▶️</button>
-        <!-- Botão de fechar -->
-        <button id="close-btn" class="close-btn">X</button>
+        <div class="video-container">
+            <video id="ad-video">
+                <source src="https://social.x10.mx/video/anuncio.mp4" type="video/mp4">
+                Seu navegador não suporta o formato de vídeo.
+            </video>
+            <div id="clickable-area"></div>
+            <button id="play-btn" class="play-button">▶️</button>
+            <button id="btn-mute-button" class="mute-button">🔇</button>
+            <button id="close-btn" class="close-button">❎</button>
+        </div>
+        
+        <button id="help-manobrista-btn" class="donate-button">Doar agora</button>
     </div>
 </div>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Pix</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
+<!-- Estilos CSS -->
+<style>
+    .ad-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    }
+    
+    .ad-popup-content {
+        width: 90vw;
+        max-width: 360px;
+        height: 95vh;
+        max-height: 640px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .video-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(0, 102, 255, 0.5); /* Azul fininho e discreto */
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    .play-button {
+        position: absolute;
+        background: green;
+        color: white;
+        font-size: 24px;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    
+    .mute-button, .close-button {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 5px;
+    }
+    
+    .mute-button {
+        top: 10px;
+        left: 10px;
+    }
+    
+    .close-button {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .donate-button {
+        background: green;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .donate-button:hover {
+        background: darkgreen;
+    }
+    
+    #clickable-area {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+</style>
+
+<!-- JavaScript para controle do pop-up -->
+<script>
+    const video = document.getElementById("ad-video");
+    const closeBtn = document.getElementById("close-btn");
+    const muteBtn = document.getElementById("btn-mute-button");
+    const playBtn = document.getElementById("play-btn");
+    const helpManobristaBtn = document.getElementById("help-manobrista-btn");
+    const adPopup = document.getElementById("ad-popup");
+    const clickableOverlay = document.getElementById("clickable-overlay");
+    const clickableArea = document.getElementById("clickable-area");
+
+    // Garantir que o vídeo não comece automaticamente
+    video.removeAttribute("autoplay");
+    video.pause();
+
+    // Função para mutar e desmutar o vídeo
+    muteBtn.addEventListener("click", () => {
+        video.muted = !video.muted;
+        muteBtn.textContent = video.muted ? "🔊" : "🔇";
+    });
+
+    // Função para iniciar o vídeo ao clicar no botão "Play"
+    playBtn.addEventListener("click", (event) => {
+        event.stopPropagation(); // Evita propagação do clique
+        video.play();
+        playBtn.style.display = "none";
+    });
+
+    // Botão "Fechar" fecha o pop-up
+    closeBtn.addEventListener("click", () => {
+        adPopup.style.display = "none";
+        video.pause();
+    });
+
+    // Redirecionar para a página de doação ao clicar no botão "Doar agora"
+    helpManobristaBtn.addEventListener("click", () => {
+        window.location.href = "https://social.x10.mx/donate.html";
+    });
+
+    // Tornar o fundo e as laterais do vídeo clicáveis para direcionar ao site
+    clickableOverlay.addEventListener("click", () => {
+        window.location.href = "https://social.x10.mx/donate.html";
+    });
+    clickableArea.addEventListener("click", (event) => {
+        if (!playBtn.contains(event.target)) {
+            window.location.href = "https://social.x10.mx/donate.html";
         }
+    });
 
-        .pix-button {
-            background-color: #00BFA6;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-            width: 300px;
-        }
-
-        .popup h2 {
-            margin-top: 0;
-        }
-
-        .qrcode-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .popup-close {
-            background: red;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-    </style>
-
-
-
-
-
-
+    // Exibir o pop-up manualmente (simulando um clique para abrir)
+    setTimeout(() => {
+        adPopup.style.display = "flex";
+    }, 5000); // Exibe o pop-up após 5 segundos (pode ajustar se necessário)
+</script>
 <!-- Botão de escolha para visualizar o anúncio -->
 <div id="ad-choice" class="ad-choice" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #00008B; color: white; padding: 10px 20px; border-radius: 10px; z-index: 9999; width: 250px;">
     <!-- Campo de mensagem -->
