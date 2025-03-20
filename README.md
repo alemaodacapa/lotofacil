@@ -16,7 +16,7 @@
 
 <h3 align="center">Versão: 1.0</h3>
 
-<h2 align="center">📆 Criado em 2025 ano da grande depressaõ</h2>
+<h2 align="center">📆 Criado em 2025 ano da grande depressão</h2>
 
 Aqui estão as funcionalidades já implementadas no **Gerador de Números da Lotofácil**:
 
