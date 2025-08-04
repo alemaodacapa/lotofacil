@@ -1,4 +1,4 @@
-<p align="center"><img alt="e-painel" src="https://social.x10.mx/img/lotofacil-1.png"></p>
+<p align="center"><img alt="e-painel" src="https://cam.painelsummerside.com.br/img/computer-illustration.png"></p>
 
 <h1 align="center">Gerador de Números para Lotofácil (BETA)</h1>
 <p align="center">
